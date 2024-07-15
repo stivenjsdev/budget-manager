@@ -1,6 +1,9 @@
 import { ChangeEvent, useMemo, useState } from "react";
+import { useBudget } from "../hooks/useBudget";
 
 function BudgetForm() {
+  const { state, dispatch } = useBudget();
+  
   const [budget, setBudget] = useState<number | string>("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
