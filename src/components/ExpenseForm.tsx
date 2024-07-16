@@ -1,6 +1,7 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { categories } from "../data/categories";
 import { DraftExpense } from "../types";
+import ErrorMessage from "./ErrorMessage";
 
 function ExpenseForm() {
   const [expense, setExpense] = useState<DraftExpense>({
@@ -9,6 +10,8 @@ function ExpenseForm() {
     category: "",
     date: new Date().toISOString().split("T")[0],
   });
+
+  const [error, setError] = useState("");
 
   function handleChange(
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -21,11 +24,25 @@ function ExpenseForm() {
     }));
   }
 
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    // validar
+    if (Object.values(expense).includes("") || expense.amount <= 0) {
+      setError("Todos los campos son obligatorios");
+      return;
+    }
+
+    setError("");
+  }
+
   return (
-    <form className="space-y-5">
+    <form className="space-y-5" onSubmit={handleSubmit}>
       <legend className="uppercase text-center text-2xl font-black border-blue-500 border-b-4 py-2">
         Nuevo Gasto
       </legend>
+
+      {error && <ErrorMessage>{error}</ErrorMessage>}
 
       <div className="flex flex-col gap-2">
         <label htmlFor="expenseName" className="text-xl">
