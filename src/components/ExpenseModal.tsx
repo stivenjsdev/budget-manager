@@ -1,10 +1,10 @@
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useBudget } from "../hooks/useBudget";
+import ExpenseForm from "./ExpenseForm";
 
 function ExpenseModal() {
   const { state, dispatch } = useBudget();
-  console.log(state.modal);
   return (
     <>
       {/* Button to deploy the modal */}
@@ -29,10 +29,11 @@ function ExpenseModal() {
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
           <DialogPanel
             transition
-            className="max-w-3xl overflow-hidden rounded-2xl bg-white p-6 shadow-xl text-left align-middle
+            className="w-full max-w-3xl overflow-hidden rounded-2xl bg-white p-6 shadow-xl text-left align-middle
             duration-500 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
           >
             {/* content */}
+            <ExpenseForm />
           </DialogPanel>
         </div>
       </Dialog>

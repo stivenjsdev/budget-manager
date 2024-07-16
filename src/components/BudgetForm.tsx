@@ -43,6 +43,7 @@ function BudgetForm() {
           name="budget"
           value={budget}
           onChange={handleChange}
+          autoFocus
         />
       </div>
 
