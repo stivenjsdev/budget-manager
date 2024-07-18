@@ -1,15 +1,19 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { categories } from "../data/categories";
+import { useBudget } from "../hooks/useBudget";
 import { DraftExpense } from "../types";
 import ErrorMessage from "./ErrorMessage";
 
+const initialState: DraftExpense = {
+  amount: "" as unknown as number,
+  expenseName: "",
+  category: "",
+  date: new Date().toISOString().split("T")[0],
+};
+
 function ExpenseForm() {
-  const [expense, setExpense] = useState<DraftExpense>({
-    amount: "" as unknown as number,
-    expenseName: "",
-    category: "",
-    date: new Date().toISOString().split("T")[0],
-  });
+  const { dispatch } = useBudget();
+  const [expense, setExpense] = useState<DraftExpense>(initialState);
 
   const [error, setError] = useState("");
 
@@ -33,7 +37,12 @@ function ExpenseForm() {
       return;
     }
 
+    // agregar un nuevo gasto
+    dispatch({ type: "ADD_EXPENSE", payload: { expense } });
+    
+    // reiniar el formulario
     setError("");
+    setExpense(initialState);
   }
 
   return (
