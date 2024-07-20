@@ -15,7 +15,7 @@ function ExpenseDetail({ expense }: ExpenseDetailProps) {
     [expense.category]
   );
   return (
-    <div className="bg-white shadow-lg p-10 w-full border-b border-gray-200 flex gap-5 items-center">
+    <div className="bg-white shadow-lg p-4 w-full border-b border-gray-200 flex gap-5 items-center md:p-10">
       <div>
         <img
           src={`/icono_${categoryInfo!.icon}.svg`}

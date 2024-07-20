@@ -6,10 +6,11 @@ type AmountDisplayProps = {
 };
 
 function AmountDisplay({ label, amount }: AmountDisplayProps) {
+  const formattedAmount = formatCurrency(amount).substring(0, formatCurrency(amount).length - 3);
   return (
-    <p className="text-2xl text-blue-600 font-bold">
+    <p className="text-2xl text-blue-600 font-semibold">
       {label && `${label}: `}
-      <span className="font-black text-black">{formatCurrency(amount)}</span>
+      <span className="font-bold text-black">{formattedAmount}</span>
     </p>
   );
 }
