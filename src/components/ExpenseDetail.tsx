@@ -64,7 +64,7 @@ function ExpenseDetail({ expense }: ExpenseDetailProps) {
         leadingActions={leadingActions()}
         trailingActions={trailingActions()}
       >
-        <div className="bg-white shadow-lg p-4 w-full border-b border-gray-200 flex gap-5 items-center md:p-10">
+        <div className="bg-white shadow-lg px-0 py-4 w-full border-b border-gray-200 flex gap-5 items-center md:p-10">
           <div>
             <img
               src={`/icono_${categoryInfo!.icon}.svg`}
@@ -74,11 +74,11 @@ function ExpenseDetail({ expense }: ExpenseDetailProps) {
           </div>
 
           <div className="flex-1 space-y-2">
-            <p className="text-xs font-bold uppercase text-slate-500 md:text-base">
+            <p className="text-sm font-bold uppercase text-slate-500 md:text-base">
               {categoryInfo!.name}
             </p>
             <p className="text-xs md:text-sm">{expense.expenseName}</p>
-            <p className="text-slate-600 text-sm">{formattedDate}</p>
+            <p className="text-slate-600 text-xs md:text-sm">{formattedDate}</p>
           </div>
 
           <AmountDisplay amount={expense.amount} />
