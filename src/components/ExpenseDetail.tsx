@@ -9,6 +9,7 @@ import {
 import "react-swipeable-list/dist/styles.css";
 import { categories } from "../data/categories";
 import { formatDate } from "../helpers";
+import { useBudget } from "../hooks/useBudget";
 import { Expense } from "../types";
 import AmountDisplay from "./AmountDisplay";
 
@@ -16,32 +17,38 @@ type ExpenseDetailProps = {
   expense: Expense;
 };
 
-const leadingActions = () => (
-  <LeadingActions>
-    <SwipeAction 
-      onClick={() => console.info('swipe action triggered')}
-    >
-      Actualizar
-    </SwipeAction>
-  </LeadingActions>
-);
-
-const trailingActions = () => (
-  <TrailingActions>
-    <SwipeAction
-      destructive={true}
-      onClick={() => console.info('swipe action triggered')}
-    >
-      Eliminar
-    </SwipeAction>
-  </TrailingActions>
-);
-
 function ExpenseDetail({ expense }: ExpenseDetailProps) {
+  const { dispatch } = useBudget();
+
   const formattedDate = useMemo(() => formatDate(expense.date), [expense]);
+
   const categoryInfo = useMemo(
     () => categories.find((cat) => cat.id === expense.category),
     [expense.category]
+  );
+
+  const leadingActions = () => (
+    <LeadingActions>
+      <SwipeAction onClick={() => console.info("swipe action triggered")}>
+        Actualizar
+      </SwipeAction>
+    </LeadingActions>
+  );
+
+  const trailingActions = () => (
+    <TrailingActions>
+      <SwipeAction
+        destructive={true}
+        onClick={() =>
+          dispatch({
+            type: "REMOVE_EXPENSE",
+            payload: { id: expense.id },
+          })
+        }
+      >
+        Eliminar
+      </SwipeAction>
+    </TrailingActions>
   );
   return (
     <SwipeableList>

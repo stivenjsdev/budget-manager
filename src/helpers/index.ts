@@ -7,7 +7,6 @@ export function formatCurrency(amount: number) {
 
 export function formatDate(dateStr: string): string {
   // cambia el gtm-0500 por el correspondiente a tu zona horaria
-  console.log('formatDate run');
   const dateObj = new Date(dateStr + " GMT-0500");
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
