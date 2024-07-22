@@ -29,7 +29,14 @@ function ExpenseDetail({ expense }: ExpenseDetailProps) {
 
   const leadingActions = () => (
     <LeadingActions>
-      <SwipeAction onClick={() => console.info("swipe action triggered")}>
+      <SwipeAction
+        onClick={() =>
+          dispatch({
+            type: "GET_EXPENSE_BY_ID",
+            payload: { id: expense.id },
+          })
+        }
+      >
         Actualizar
       </SwipeAction>
     </LeadingActions>

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { categories } from "../data/categories";
 import { useBudget } from "../hooks/useBudget";
 import { DraftExpense } from "../types";
@@ -12,10 +12,19 @@ const initialState: DraftExpense = {
 };
 
 function ExpenseForm() {
-  const { dispatch } = useBudget();
-  const [expense, setExpense] = useState<DraftExpense>(initialState);
+  const { dispatch, state } = useBudget();
 
+  const [expense, setExpense] = useState<DraftExpense>(initialState);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (state.editingId) {
+      const editingExpense = state.expenses.find(
+        (currentExpense) => currentExpense.id === state.editingId
+      );
+      setExpense(editingExpense!);
+    }
+  }, [state.editingId]);
 
   function handleChange(
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -37,10 +46,17 @@ function ExpenseForm() {
       return;
     }
 
-    // agregar un nuevo gasto
-    dispatch({ type: "ADD_EXPENSE", payload: { expense } });
-    
-    // reiniar el formulario
+    // Agregar o actualizar gasto
+    if (state.editingId) {
+      dispatch({
+        type: "UPDATE_EXPENSE",
+        payload: { expense: { id: state.editingId, ...expense } },
+      });
+    } else {
+      dispatch({ type: "ADD_EXPENSE", payload: { expense } });
+    }
+
+    // reiniciar el formulario
     setError("");
     setExpense(initialState);
   }
@@ -48,7 +64,7 @@ function ExpenseForm() {
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
       <legend className="uppercase text-center text-2xl font-black border-blue-500 border-b-4 py-2">
-        Nuevo Gasto
+        {state.editingId ? "Guardar Cambios" : "Nuevo Gasto"}
       </legend>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -85,7 +101,7 @@ function ExpenseForm() {
 
       <div className="flex flex-col gap-2">
         <label htmlFor="category" className="text-xl">
-          Categoria:
+          Categoría:
         </label>
         <select
           id="category"
@@ -119,7 +135,7 @@ function ExpenseForm() {
 
       <input
         type="submit"
-        value="Registrar Gasto"
+        value={state.editingId ? "Guardar Cambios" : "Registrar Gasto"}
         className="bg-blue-600 cursor-pointer w-full p-2 text-white uppercase font-bold rounded-lg"
       />
     </form>
