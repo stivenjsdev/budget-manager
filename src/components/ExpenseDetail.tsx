@@ -69,15 +69,15 @@ function ExpenseDetail({ expense }: ExpenseDetailProps) {
             <img
               src={`/icono_${categoryInfo!.icon}.svg`}
               alt="icono gasto"
-              className="w-20"
+              className="w-20 md:w-20"
             />
           </div>
 
           <div className="flex-1 space-y-2">
-            <p className="text-sm font-bold uppercase text-slate-500">
+            <p className="text-xs font-bold uppercase text-slate-500 md:text-base">
               {categoryInfo!.name}
             </p>
-            <p className="text-base">{expense.expenseName}</p>
+            <p className="text-xs md:text-sm">{expense.expenseName}</p>
             <p className="text-slate-600 text-sm">{formattedDate}</p>
           </div>
 
