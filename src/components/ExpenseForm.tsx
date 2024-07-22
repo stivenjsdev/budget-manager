@@ -12,17 +12,20 @@ const initialState: DraftExpense = {
 };
 
 function ExpenseForm() {
-  const { dispatch, state } = useBudget();
+  const { dispatch, state, remainingBudget } = useBudget();
 
   const [expense, setExpense] = useState<DraftExpense>(initialState);
   const [error, setError] = useState("");
+  const [previousAmount, setPreviousAmount] = useState(0);
 
   useEffect(() => {
+    // si estamos editando un gasto
     if (state.editingId) {
       const editingExpense = state.expenses.find(
         (currentExpense) => currentExpense.id === state.editingId
       );
       setExpense(editingExpense!);
+      setPreviousAmount(editingExpense!.amount);
     }
   }, [state.editingId]);
 
@@ -43,6 +46,12 @@ function ExpenseForm() {
     // validar
     if (Object.values(expense).includes("") || expense.amount <= 0) {
       setError("Todos los campos son obligatorios");
+      return;
+    }
+
+    // validar que no me pase del limite
+    if (expense.amount - previousAmount > remainingBudget) {
+      setError("Ese Gasto se sale del presupuesto");
       return;
     }
 
