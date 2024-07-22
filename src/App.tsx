@@ -18,14 +18,16 @@ function App() {
 
   return (
     <>
-      <header className="bg-blue-600 py-8 max-h-64">
-        <h1 className="uppercase font-black text-center text-4xl text-white">
+      <header className="bg-blue-600 py-6 px-2 max-h-60 md:py-8 md:max-h-64">
+        <h1 className="uppercase font-black text-center text-white text-3xl md:text-4xl">
           Planificador de Gastos
         </h1>
       </header>
 
-      <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg mt-10 p-10">
-        {!isValidBudget ? <BudgetForm /> : <BudgetTracker />}
+      <div className="max-w-3xl mx-auto px-2">
+        <div className="bg-white shadow-lg rounded-lg mt-10 p-10">
+          {!isValidBudget ? <BudgetForm /> : <BudgetTracker />}
+        </div>
       </div>
 
       {isValidBudget && (
